@@ -100,24 +100,7 @@ fi
 
 # Server is up and running successfully, print message
 echo "Server is working fine."
-
-# Print success message for build
 echo "Build is working fine."
-
-# Check if the current directory is a git repository
-if [ ! -d ".git" ]; then
-  read -p "This directory is not a git repository. Initialize it now? (y/n): " initialize_git
-
-  if [ "$initialize_git" == "y" ]; then
-    git init
-    git add .
-    git commit -m "Initial commit"
-    echo "Git repository initialized successfully."
-  else
-    echo "Exiting script. Your changes are not ready to be pushed."
-    exit 1
-  fi
-fi
 
 # Prompt for commit message
 read -p "Enter commit message: " commit_message

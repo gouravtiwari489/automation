@@ -13,13 +13,13 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.1)
 
-2024-01-11T01:47:06.942+01:00  INFO 44309 --- [           main] com.automation.demo.DemoApplication      : Starting DemoApplication using Java 17.0.8 with PID 44309 (/Users/gtiwari/Downloads/demo/build/classes/java/main started by gtiwari in /Users/gtiwari/Downloads/demo)
-2024-01-11T01:47:06.944+01:00  INFO 44309 --- [           main] com.automation.demo.DemoApplication      : No active profile set, falling back to 1 default profile: "default"
-2024-01-11T01:47:07.404+01:00  INFO 44309 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2024-01-11T01:47:07.411+01:00  INFO 44309 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-01-11T01:47:07.411+01:00  INFO 44309 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
-2024-01-11T01:47:07.435+01:00  INFO 44309 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-01-11T01:47:07.435+01:00  INFO 44309 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 472 ms
-2024-01-11T01:47:07.638+01:00  INFO 44309 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2024-01-11T01:47:07.667+01:00  INFO 44309 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
-2024-01-11T01:47:07.675+01:00  INFO 44309 --- [           main] com.automation.demo.DemoApplication      : Started DemoApplication in 0.894 seconds (process running for 1.031)
+2024-01-11T01:50:01.188+01:00  INFO 44780 --- [           main] com.automation.demo.DemoApplication      : Starting DemoApplication using Java 17.0.8 with PID 44780 (/Users/gtiwari/Downloads/demo/build/classes/java/main started by gtiwari in /Users/gtiwari/Downloads/demo)
+2024-01-11T01:50:01.190+01:00  INFO 44780 --- [           main] com.automation.demo.DemoApplication      : No active profile set, falling back to 1 default profile: "default"
+2024-01-11T01:50:01.677+01:00  INFO 44780 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-01-11T01:50:01.684+01:00  INFO 44780 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-01-11T01:50:01.684+01:00  INFO 44780 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-01-11T01:50:01.707+01:00  INFO 44780 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-01-11T01:50:01.708+01:00  INFO 44780 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 497 ms
+2024-01-11T01:50:01.934+01:00  INFO 44780 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-01-11T01:50:01.963+01:00  INFO 44780 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-01-11T01:50:01.971+01:00  INFO 44780 --- [           main] com.automation.demo.DemoApplication      : Started DemoApplication in 0.93 seconds (process running for 1.067)
