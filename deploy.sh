@@ -109,7 +109,7 @@ if git push origin "$branch_name"; then
 
   # Provide a link to the server logs file
   server_logs_file=$(pwd)/server_logs.txt
-  echo "Server logs file: $server_logs_file"
+  echo "Success: Server logs file created at: $server_logs_file"
 else
   echo "Failure: Failed to push changes to branch $branch_name. Exiting script."
   exit 1
