@@ -19,7 +19,6 @@ kill_if_port_in_use() {
 print_waiting_dots() {
   local duration=$1
   local dot_interval=1
-  local dots=""
   local elapsed_time=0
 
   while [ $elapsed_time -lt $duration ]; do
@@ -30,6 +29,13 @@ print_waiting_dots() {
 
   echo
 }
+
+# Create a log file to store all logs
+log_file=$(pwd)/all_logs.txt
+touch "$log_file"
+
+# Redirect all output to the log file
+exec > >(tee -a "$log_file") 2>&1
 
 # Check if jq is installed, if not, install it
 if ! command_exists jq; then
@@ -107,15 +113,8 @@ if git push origin "$branch_name"; then
   echo "Success: Changes successfully pushed to branch $branch_name."
   echo "Success: Your changes are ready to be reviewed and merged."
 
-  # Provide a clickable link to the server logs file in an HTML file
-  server_logs_file=$(pwd)/server_logs.txt
-  html_content="<html><body><p>Success: Server logs file created at: <a href='file://$server_logs_file'>$server_logs_file</a></p></body></html>"
-  echo "$html_content" > output.html
-
-  echo "Success: Clickable link to server logs saved in output.html"
-  echo "To open the link, you can try:"
-  echo "1. Copy and paste the link into your web browser."
-  echo "2. Run 'xdg-open output.html' (Linux) or 'open output.html' (macOS) in the terminal."
+  # Provide a clickable link to the all logs file
+  echo "Log file: file://$log_file"
 else
   echo "Failure: Failed to push changes to branch $branch_name. Exiting script."
   exit 1

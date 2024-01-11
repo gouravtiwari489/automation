@@ -1,0 +1,7 @@
+Build is in progress..........
+Success: Build is successful.
+Starting the server. This may take a moment..............................
+Success: Gradle bootRun successful on port 8080.
+Success: Server is working fine.
+Success: Build is working fine.
+Enter commit message: Enter branch name: 
