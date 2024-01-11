@@ -110,15 +110,26 @@ if git push origin "$branch_name"; then
   # Start ngrok to expose build and run logs
   ngrok http 4040 -log=stdout > ngrok.log 2>&1 &
 
+  # Capture the ngrok log file path
+  ngrok_log_file=$(pwd)/ngrok.log
+
   # Wait for ngrok to generate the public URLs
   sleep 5
 
   build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4041")).public_url')
   run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
 
-  echo "Success: You can watch the build logs at: $build_log_url"
-  echo "Success: You can watch the run logs at: $run_log_url"
+  if [ -n "$build_log_url" ] && [ -n "$run_log_url" ]; then
+    echo "Success: Build logs are available at: $build_log_url"
+    echo "Success: Run logs are available at: $run_log_url"
+  else
+    echo "Failure: Failed to retrieve ngrok URLs. Exiting script."
+    exit 1
+  fi
 else
-  echo "Failure: Failed to push changes. Exiting script."
+  echo "Failure: Failed to push changes to branch $branch_name. Exiting script."
   exit 1
 fi
+
+# Provide a link to the ngrok log file
+echo "Ngrok log file: $ngrok_log_file"

@@ -1,1 +1,1 @@
-./deploy.sh: line 118: ngrok: command not found
+./deploy.sh: line 111: ngrok: command not found
