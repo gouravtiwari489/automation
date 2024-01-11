@@ -66,7 +66,7 @@ kill_if_port_in_use $port
 
 # Gradle bootRun with the selected port
 echo -n "Starting the server. This may take a moment"
-./gradlew bootRun -Dserver.port=$port > run.log 2>&1 &
+./gradlew bootRun -Dserver.port=$port > server.log 2>&1 &
 
 # Print dynamic waiting dots during server startup
 print_waiting_dots 30
@@ -126,6 +126,11 @@ if git push origin "$branch_name"; then
   if [ -n "$build_log_url" ] && [ -n "$run_log_url" ]; then
     echo "Success: Build logs are available at: $build_log_url"
     echo "Success: Run logs are available at: $run_log_url"
+
+    # Write build and run logs to files
+    mv build.log $(pwd)/build.log
+    mv server.log $(pwd)/server.log
+    echo "Success: Build and run logs written to build.log and server.log."
   else
     echo "Failure: Failed to retrieve ngrok URLs. Exiting script."
     exit 1
