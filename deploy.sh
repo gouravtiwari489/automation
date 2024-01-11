@@ -42,23 +42,6 @@ if ! command_exists jq; then
   fi
 fi
 
-# Check if ngrok is installed, if not, install it
-if ! command_exists ngrok; then
-  echo "ngrok is not installed. Downloading and installing ngrok..."
-
-  # Download ngrok
-  NGROK_DOWNLOAD_URL="https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
-  NGROK_ZIP_FILE="/tmp/ngrok.zip"
-
-  curl -o $NGROK_ZIP_FILE $NGROK_DOWNLOAD_URL
-
-  # Unzip and move ngrok to /usr/local/bin
-  sudo unzip -o $NGROK_ZIP_FILE -d /usr/local/bin/
-
-  # Clean up temporary files
-  rm $NGROK_ZIP_FILE
-fi
-
 # Gradle build
 echo -n "Build is in progress"
 ./gradlew build > build.log 2>&1 &
@@ -83,7 +66,7 @@ kill_if_port_in_use $port
 
 # Gradle bootRun with the selected port
 echo -n "Starting the server. This may take a moment"
-./gradlew bootRun -Dserver.port=$port > server.log 2>&1 &
+./gradlew bootRun -Dserver.port=$port > server_logs.txt 2>&1 &
 
 # Print dynamic waiting dots during server startup
 print_waiting_dots 30
@@ -124,38 +107,10 @@ if git push origin "$branch_name"; then
   echo "Success: Changes successfully pushed to branch $branch_name."
   echo "Success: Your changes are ready to be reviewed and merged."
 
-  # Start ngrok to expose build and run logs
-  ngrok http 4040 > ngrok.log 2>&1 &
-
-  # Capture the ngrok log file path
-  ngrok_log_file=$(pwd)/ngrok.log
-
-  # Wait for ngrok to generate the public URLs
-  sleep 5
-
-  # Print ngrok log content for debugging
-  echo "Ngrok log content:"
-  cat ngrok.log
-
-  build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4041")).public_url')
-  run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
-
-  if [ -n "$build_log_url" ] && [ -n "$run_log_url" ]; then
-    echo "Success: Build logs are available at: $build_log_url"
-    echo "Success: Run logs are available at: $run_log_url"
-
-    # Write build and run logs to files
-    mv build.log $(pwd)/build.log
-    mv server.log $(pwd)/server.log
-    echo "Success: Build and run logs written to build.log and server.log."
-  else
-    echo "Failure: Failed to retrieve ngrok URLs. Exiting script."
-    exit 1
-  fi
+  # Provide a link to the server logs file
+  server_logs_file=$(pwd)/server_logs.txt
+  echo "Server logs file: $server_logs_file"
 else
   echo "Failure: Failed to push changes to branch $branch_name. Exiting script."
   exit 1
 fi
-
-# Provide a link to the ngrok log file
-echo "Ngrok log file: $ngrok_log_file"

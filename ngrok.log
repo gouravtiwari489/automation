@@ -38,7 +38,7 @@ OPTIONS:
       --domain string                    host tunnel on a custom subdomain or hostname (requires DNS CNAME)
   -h, --help                             help for http
       --host-header string               set Host header; if 'rewrite' use local address hostname
-      --inspect                          enable/disable http introspection (default true)
+      --inspect                          enable/disable http introspection (default true) (default <nil>)
       --log string                       path to log file, 'stdout', 'stderr' or 'false' (default "false")
       --log-format string                log record format: 'term', 'logfmt', 'json' (default "term")
       --log-level string                 logging level: 'debug', 'info', 'warn', 'error', 'crit' (default "info")
@@ -67,4 +67,10 @@ OPTIONS:
       --verify-webhook-secret string     secret used by provider to sign webhooks, if any
       --websocket-tcp-converter          convert ingress websocket connections to TCP upstream
 
-ERROR:  unknown shorthand flag: 'l' in -log=stdout
+ERROR:  authentication failed: Usage of ngrok requires a verified account and authtoken.
+ERROR:  
+ERROR:  Sign up for an account: https://dashboard.ngrok.com/signup
+ERROR:  Install your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken
+ERROR:  
+ERROR:  ERR_NGROK_4018
+ERROR:  
