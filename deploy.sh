@@ -44,12 +44,19 @@ fi
 
 # Check if ngrok is installed, if not, install it
 if ! command_exists ngrok; then
-  echo "ngrok is not installed. Installing ngrok..."
-  # You may need to replace the following command with the correct installation command for your system
-  # For example, on Linux: sudo apt-get install ngrok
-  # For example, on macOS: brew install ngrok
-  # For Windows, you may need to download and install ngrok manually: https://ngrok.com/download
-  exit 1
+  echo "ngrok is not installed. Downloading and installing ngrok..."
+  # Download and install ngrok
+  NGROK_DOWNLOAD_URL="https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
+  NGROK_ZIP_FILE="/tmp/ngrok.zip"
+  NGROK_EXTRACT_DIR="/tmp/ngrok"
+
+  curl -o $NGROK_ZIP_FILE $NGROK_DOWNLOAD_URL
+  unzip -o $NGROK_ZIP_FILE -d $NGROK_EXTRACT_DIR
+  sudo mv $NGROK_EXTRACT_DIR/ngrok /usr/local/bin/ngrok
+
+  # Clean up temporary files
+  rm $NGROK_ZIP_FILE
+  rm -r $NGROK_EXTRACT_DIR
 fi
 
 # Gradle build
