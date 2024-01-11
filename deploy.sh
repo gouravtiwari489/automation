@@ -45,18 +45,18 @@ fi
 # Check if ngrok is installed, if not, install it
 if ! command_exists ngrok; then
   echo "ngrok is not installed. Downloading and installing ngrok..."
-  # Download and install ngrok
+
+  # Download ngrok
   NGROK_DOWNLOAD_URL="https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
   NGROK_ZIP_FILE="/tmp/ngrok.zip"
-  NGROK_EXTRACT_DIR="/tmp/ngrok"
 
   curl -o $NGROK_ZIP_FILE $NGROK_DOWNLOAD_URL
-  unzip -o $NGROK_ZIP_FILE -d $NGROK_EXTRACT_DIR
-  sudo mv $NGROK_EXTRACT_DIR/ngrok /usr/local/bin/ngrok
+
+  # Unzip and move ngrok to /usr/local/bin
+  sudo unzip -o $NGROK_ZIP_FILE -d /usr/local/bin/
 
   # Clean up temporary files
   rm $NGROK_ZIP_FILE
-  rm -r $NGROK_EXTRACT_DIR
 fi
 
 # Gradle build
@@ -125,19 +125,10 @@ if git push origin "$branch_name"; then
   echo "Success: Your changes are ready to be reviewed and merged."
 
   # Start ngrok to expose build and run logs
-  ngrok_output=$(ngrok http 4040 2>&1)
-
-  # Check if ngrok started successfully
-  if [ $? -ne 0 ]; then
-    echo "Failure: Failed to start ngrok. Exiting script."
-    exit 1
-  fi
+  ngrok http 4040 > ngrok.log 2>&1 &
 
   # Capture the ngrok log file path
   ngrok_log_file=$(pwd)/ngrok.log
-
-  # Redirect ngrok output to the log file
-  echo "$ngrok_output" > "$ngrok_log_file"
 
   # Wait for ngrok to generate the public URLs
   sleep 5
