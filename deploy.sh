@@ -42,6 +42,16 @@ if ! command_exists jq; then
   fi
 fi
 
+# Check if ngrok is installed, if not, install it
+if ! command_exists ngrok; then
+  echo "ngrok is not installed. Installing ngrok..."
+  # You may need to replace the following command with the correct installation command for your system
+  # For example, on Linux: sudo apt-get install ngrok
+  # For example, on macOS: brew install ngrok
+  # For Windows, you may need to download and install ngrok manually: https://ngrok.com/download
+  exit 1
+fi
+
 # Gradle build
 echo -n "Build is in progress"
 ./gradlew build > build.log 2>&1 &
