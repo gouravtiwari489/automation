@@ -69,12 +69,12 @@ kill_if_port_in_use $port
 echo -n "Starting the server. This may take a moment"
 ./gradlew bootRun -Dserver.port=$port > run.log 2>&1 &
 
+# Print dynamic waiting dots during server startup
+print_waiting_dots 30
+
 # Display the server logs in real-time with clickable link
 echo "Server logs: <a href=\"file://$(pwd)/run.log\" target=\"_blank\">Click here</a>"
 tail -f run.log &
-
-# Print dynamic waiting dots during server startup
-print_waiting_dots 30
 
 # Check if bootRun was successful
 if [ $? -eq 0 ]; then
@@ -144,4 +144,9 @@ if git push origin "$branch_name"; then
   run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
 
   echo "You can watch the build logs at: $build_log_url"
-  echo "You can
+  echo "You can watch the run logs at: $run_log_url"
+else
+  echo "Failure: Failed to push changes. Exiting script."
+  echo "Sorry, your changes are not ready to be pushed."
+  exit 1
+fi
