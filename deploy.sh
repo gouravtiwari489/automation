@@ -107,9 +107,12 @@ if git push origin "$branch_name"; then
   echo "Success: Changes successfully pushed to branch $branch_name."
   echo "Success: Your changes are ready to be reviewed and merged."
 
-  # Provide a link to the server logs file
+  # Provide a clickable link to the server logs file in an HTML file
   server_logs_file=$(pwd)/server_logs.txt
-  echo "Success: Server logs file created at: $server_logs_file"
+  html_content="<html><body><p>Success: Server logs file created at: <a href='file://$server_logs_file'>$server_logs_file</a></p></body></html>"
+  echo "$html_content" > output.html
+
+  echo "Success: Clickable link to server logs saved in output.html"
 else
   echo "Failure: Failed to push changes to branch $branch_name. Exiting script."
   exit 1
