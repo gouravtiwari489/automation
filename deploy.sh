@@ -52,7 +52,6 @@ print_waiting_dots 10
 # Check if build was successful
 if [ $? -ne 0 ]; then
   echo "Gradle build failed. Exiting script."
-  echo "Sorry, your changes are not ready to be pushed."
   exit 1
 fi
 
@@ -73,7 +72,7 @@ echo -n "Starting the server. This may take a moment"
 print_waiting_dots 30
 
 # Display the server logs in real-time with clickable link
-echo "Server logs: <a href=\"file://$(pwd)/run.log\" target=\"_blank\">Click here</a>"
+echo "Server logs: Click here to view the logs: file://$(pwd)/run.log"
 tail -f run.log &
 
 # Check if bootRun was successful
@@ -82,7 +81,6 @@ if [ $? -eq 0 ]; then
   success=true
 else
   echo "Failed to start on port $port. Exiting script."
-  echo "Sorry, your changes are not ready to be pushed."
 fi
 
 # Kill the server process
@@ -94,7 +92,6 @@ pkill -f ".*tail.*run.log" >/dev/null 2>&1
 # If bootRun was not successful
 if [ "$success" = false ]; then
   echo "Application failed to start. Exiting script."
-  echo "Sorry, your changes are not ready to be pushed."
   exit 1
 fi
 
@@ -130,6 +127,5 @@ if git push origin "$branch_name"; then
   echo "You can watch the run logs at: $run_log_url"
 else
   echo "Failure: Failed to push changes. Exiting script."
-  echo "Sorry, your changes are not ready to be pushed."
   exit 1
 fi
