@@ -129,31 +129,19 @@ read -p "Enter branch name: " branch_name
 git add .
 git commit -m "$commit_message"
 
-# Check if the commit was successful
-if [ $? -eq 0 ]; then
-  git push origin "$branch_name"
-  if [ $? -eq 0 ]; then
-    echo "Changes successfully pushed to branch $branch_name."
-    echo "Your changes are ready to be reviewed and merged."
+# Check if the commit and push were successful
+if git push origin "$branch_name"; then
+  echo "Success: Changes successfully pushed to branch $branch_name."
+  echo "Your changes are ready to be reviewed and merged."
 
-    # Start ngrok to expose build and run logs
-    ngrok http 4040 -log=stdout > ngrok.log 2>&1 &
+  # Start ngrok to expose build and run logs
+  ngrok http 4040 -log=stdout > ngrok.log 2>&1 &
 
-    # Wait for ngrok to generate the public URLs
-    sleep 5
+  # Wait for ngrok to generate the public URLs
+  sleep 5
 
-    build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4041")).public_url')
-    run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
+  build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4041")).public_url')
+  run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
 
-    echo "You can watch the build logs at: $build_log_url"
-    echo "You can watch the run logs at: $run_log_url"
-  else
-    echo "Failed to push changes. Exiting script."
-    echo "Sorry, your changes are not ready to be pushed."
-    exit 1
-  fi
-else
-  echo "Failed to commit changes. Exiting script."
-  echo "Sorry, your changes are not ready to be pushed."
-  exit 1
-fi
+  echo "You can watch the build logs at: $build_log_url"
+  echo "You can
