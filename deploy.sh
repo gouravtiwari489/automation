@@ -51,11 +51,11 @@ print_waiting_dots 10
 
 # Check if build was successful
 if [ $? -ne 0 ]; then
-  echo "Gradle build failed. Exiting script."
+  echo "Failure: Gradle build failed. Exiting script."
   exit 1
 fi
 
-echo "Build is successful."
+echo "Success: Build is successful."
 
 # Initialize variables
 success=false
@@ -71,33 +71,26 @@ echo -n "Starting the server. This may take a moment"
 # Print dynamic waiting dots during server startup
 print_waiting_dots 30
 
-# Display the server logs in real-time with clickable link
-echo "Server logs: Click here to view the logs: file://$(pwd)/run.log"
-tail -f run.log &
-
 # Check if bootRun was successful
 if [ $? -eq 0 ]; then
-  echo "Gradle bootRun successful on port $port."
+  echo "Success: Gradle bootRun successful on port $port."
   success=true
 else
-  echo "Failed to start on port $port. Exiting script."
+  echo "Failure: Failed to start on port $port. Exiting script."
 fi
 
 # Kill the server process
 pkill -f ".*org.gradle.wrapper.*$port" >/dev/null 2>&1
 
-# Stop displaying the server logs
-pkill -f ".*tail.*run.log" >/dev/null 2>&1
-
 # If bootRun was not successful
 if [ "$success" = false ]; then
-  echo "Application failed to start. Exiting script."
+  echo "Failure: Application failed to start. Exiting script."
   exit 1
 fi
 
 # Server is up and running successfully, print message
-echo "Server is working fine."
-echo "Build is working fine."
+echo "Success: Server is working fine."
+echo "Success: Build is working fine."
 
 # Prompt for commit message
 read -p "Enter commit message: " commit_message
@@ -112,7 +105,7 @@ git commit -m "$commit_message"
 # Check if the commit and push were successful
 if git push origin "$branch_name"; then
   echo "Success: Changes successfully pushed to branch $branch_name."
-  echo "Your changes are ready to be reviewed and merged."
+  echo "Success: Your changes are ready to be reviewed and merged."
 
   # Start ngrok to expose build and run logs
   ngrok http 4040 -log=stdout > ngrok.log 2>&1 &
@@ -123,8 +116,8 @@ if git push origin "$branch_name"; then
   build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4041")).public_url')
   run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
 
-  echo "You can watch the build logs at: $build_log_url"
-  echo "You can watch the run logs at: $run_log_url"
+  echo "Success: You can watch the build logs at: $build_log_url"
+  echo "Success: You can watch the run logs at: $run_log_url"
 else
   echo "Failure: Failed to push changes. Exiting script."
   exit 1
