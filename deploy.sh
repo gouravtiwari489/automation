@@ -118,10 +118,19 @@ if git push origin "$branch_name"; then
   echo "Success: Your changes are ready to be reviewed and merged."
 
   # Start ngrok to expose build and run logs
-  ngrok http 4040 -log=stdout > ngrok.log 2>&1 &
+  ngrok_output=$(ngrok http 4040 2>&1)
+
+  # Check if ngrok started successfully
+  if [ $? -ne 0 ]; then
+    echo "Failure: Failed to start ngrok. Exiting script."
+    exit 1
+  fi
 
   # Capture the ngrok log file path
   ngrok_log_file=$(pwd)/ngrok.log
+
+  # Redirect ngrok output to the log file
+  echo "$ngrok_output" > "$ngrok_log_file"
 
   # Wait for ngrok to generate the public URLs
   sleep 5
