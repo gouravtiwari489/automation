@@ -116,6 +116,10 @@ if git push origin "$branch_name"; then
   # Wait for ngrok to generate the public URLs
   sleep 5
 
+  # Print ngrok log content for debugging
+  echo "Ngrok log content:"
+  cat ngrok.log
+
   build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4041")).public_url')
   run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
 
