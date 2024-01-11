@@ -1,0 +1,25 @@
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2024-01-11T01:31:31.341+01:00  INFO 40790 --- [           main] com.automation.demo.DemoApplication      : Starting DemoApplication using Java 17.0.8 with PID 40790 (/Users/gtiwari/Downloads/demo/build/classes/java/main started by gtiwari in /Users/gtiwari/Downloads/demo)
+2024-01-11T01:31:31.370+01:00  INFO 40790 --- [           main] com.automation.demo.DemoApplication      : No active profile set, falling back to 1 default profile: "default"
+2024-01-11T01:31:32.029+01:00  INFO 40790 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-01-11T01:31:32.035+01:00  INFO 40790 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-01-11T01:31:32.035+01:00  INFO 40790 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-01-11T01:31:32.062+01:00  INFO 40790 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-01-11T01:31:32.063+01:00  INFO 40790 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 567 ms
+2024-01-11T01:31:32.278+01:00  INFO 40790 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-01-11T01:31:32.319+01:00  INFO 40790 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-01-11T01:31:32.327+01:00  INFO 40790 --- [           main] com.automation.demo.DemoApplication      : Started DemoApplication in 1.347 seconds (process running for 1.497)

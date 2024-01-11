@@ -28,7 +28,7 @@ print_waiting_dots() {
 
 # Gradle build
 echo -n "Build is in progress"
-./gradlew build >/dev/null 2>&1 &
+./gradlew build > build.log 2>&1 &
 
 # Print dynamic waiting dots during build
 print_waiting_dots 10
@@ -51,7 +51,7 @@ kill_if_port_in_use $port
 
 # Gradle bootRun with the selected port
 echo -n "Starting the server. This may take a moment"
-./gradlew bootRun -Dserver.port=$port >/dev/null 2>&1 &
+./gradlew bootRun -Dserver.port=$port > run.log 2>&1 &
 
 # Print dynamic waiting dots during server startup
 print_waiting_dots 30
@@ -112,6 +112,18 @@ if [ $? -eq 0 ]; then
   if [ $? -eq 0 ]; then
     echo "Changes successfully pushed to branch $branch_name."
     echo "Your changes are ready to be reviewed and merged."
+
+    # Start ngrok to expose build and run logs
+    ngrok http 4040 -log=stdout > ngrok.log 2>&1 &
+
+    # Wait for ngrok to generate the public URLs
+    sleep 5
+
+    build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
+    run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[1].public_url')
+
+    echo "You can watch the build logs at: $build_log_url"
+    echo "You can watch the run logs at: $run_log_url"
   else
     echo "Failed to push changes. Exiting script."
     echo "Sorry, your changes are not ready to be pushed."
