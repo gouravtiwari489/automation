@@ -113,6 +113,9 @@ if git push origin "$branch_name"; then
   echo "$html_content" > output.html
 
   echo "Success: Clickable link to server logs saved in output.html"
+  echo "To open the link, you can try:"
+  echo "1. Copy and paste the link into your web browser."
+  echo "2. Run 'xdg-open output.html' (Linux) or 'open output.html' (macOS) in the terminal."
 else
   echo "Failure: Failed to push changes to branch $branch_name. Exiting script."
   exit 1
