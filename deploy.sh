@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Function to check if a command is available
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
 # Function to check if a port is in use and kill the process
 kill_if_port_in_use() {
   local port=$1
@@ -25,6 +30,17 @@ print_waiting_dots() {
 
   echo
 }
+
+# Check if jq is installed, if not, install it
+if ! command_exists jq; then
+  echo "jq is not installed. Installing jq..."
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    brew install jq
+  else
+    echo "Unsupported OS. Please install jq manually: https://stedolan.github.io/jq/download/"
+    exit 1
+  fi
+fi
 
 # Gradle build
 echo -n "Build is in progress"
@@ -53,6 +69,10 @@ kill_if_port_in_use $port
 echo -n "Starting the server. This may take a moment"
 ./gradlew bootRun -Dserver.port=$port > run.log 2>&1 &
 
+# Display the server logs in real-time with clickable link
+echo "Server logs: <a href=\"file://$(pwd)/run.log\" target=\"_blank\">Click here</a>"
+tail -f run.log &
+
 # Print dynamic waiting dots during server startup
 print_waiting_dots 30
 
@@ -67,6 +87,9 @@ fi
 
 # Kill the server process
 pkill -f ".*org.gradle.wrapper.*$port" >/dev/null 2>&1
+
+# Stop displaying the server logs
+pkill -f ".*tail.*run.log" >/dev/null 2>&1
 
 # If bootRun was not successful
 if [ "$success" = false ]; then
@@ -119,8 +142,8 @@ if [ $? -eq 0 ]; then
     # Wait for ngrok to generate the public URLs
     sleep 5
 
-    build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
-    run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[1].public_url')
+    build_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4041")).public_url')
+    run_log_url=$(curl -s localhost:4040/api/tunnels | jq -r '.tunnels[] | select(.proto == "http" and .config.addr | contains("4042")).public_url')
 
     echo "You can watch the build logs at: $build_log_url"
     echo "You can watch the run logs at: $run_log_url"
