@@ -4,4 +4,18 @@ Starting the server. This may take a moment..............................
 Success: Gradle bootRun successful on port 8080.
 Success: Server is working fine.
 Success: Build is working fine.
+Enter commit message: Enter branch name: [main 8b8bff9] jkansda
+ 4 files changed, 27 insertions(+), 21 deletions(-)
+ create mode 100644 all_logs.txt
+To https://github.com/gouravtiwari489/automation.git
+   392fa52..8b8bff9  main -> main
+Success: Changes successfully pushed to branch main.
+Success: Your changes are ready to be reviewed and merged.
+Log file: file:///Users/gtiwari/Downloads/demo/all_logs.txt
+Build is in progress..........
+Success: Build is successful.
+Starting the server. This may take a moment..............................
+Success: Gradle bootRun successful on port 8080.
+Success: Server is working fine.
+Success: Build is working fine.
 Enter commit message: Enter branch name: 
